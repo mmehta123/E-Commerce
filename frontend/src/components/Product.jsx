@@ -61,8 +61,6 @@ align-items: center;
   }
 `
 
-
-
 const Product = ({ item }) => {
     return (
         <Container>
