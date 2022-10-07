@@ -1,12 +1,12 @@
 import Home from "./Pages/Home"
 import './App.css';
-import Login from "./Pages/Login.jsx";
+import Cart from "./Pages/Cart.jsx";
 
 
 function App() {
   return (
     <div className="App">
-      <Login/>
+      <Cart/>
     </div>
   );
 }
