@@ -2,6 +2,7 @@ const express = require("express")
 const mongoose = require("mongoose");
 const dotenv = require('dotenv');
 const cors = require('cors');
+const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 
 
@@ -12,10 +13,11 @@ app.use(express.json())
 app.use(cors());
 
 
-app.use("/api/", userRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/auth", userRoutes);
 
 const connect = () => {
-    console.log("DB connection started")
+    console.log("DB connection started");
     return mongoose.connect(process.env.MONGO_URL);
 }
 

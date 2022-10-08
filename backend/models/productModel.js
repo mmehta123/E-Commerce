@@ -10,7 +10,7 @@ const ProductSchema = mongoose.Schema({
     color: { type: String },
     price: { type: Number, required: true },
 
-}, { timeStamps: true, versionKey: false });
+}, { timestamps: true, versionKey: false });
 
 
 const ProductModel = mongoose.model("Product", ProductSchema);

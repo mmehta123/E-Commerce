@@ -1,11 +1,11 @@
 const express = require('express');
-const { test } = require("../controllers/userController");
-
-
+const { updateUser } = require("../controllers/userController");
+const verify = require('../middlewares/verifyToken');
 
 const router = express.Router();
 
-//just for testing purposes
-router.get('/user/', test);
+//update User
+router.put('/user/:id', verify, updateUser);
+
 
 module.exports=router;

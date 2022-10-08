@@ -13,7 +13,7 @@ const OrderSchema = mongoose.Schema({
     status: { type: String, default:"pending"},
     address:{type:Object,required:true}
 
-}, { timeStamps: true, versionKey: false });
+}, { timestamps: true, versionKey: false });
 
 
 const OrderModel = mongoose.model("Order", OrderSchema);
