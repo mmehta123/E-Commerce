@@ -29,7 +29,7 @@ border-radius:10px;
 display:flex;
 align-items: center;
 margin-left:25px;
-padding:2px
+padding:2px;
 `
 const Input = styled.input`
 border:none;
@@ -44,7 +44,7 @@ flex:1;
 const Logo = styled.h1`
 font-size:24px;
 text-align:center;
-font-weight:bold`
+font-weight:bold;`
 
 // RIGHT
 const Right = styled.div`
