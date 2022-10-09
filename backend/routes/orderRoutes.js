@@ -1,9 +1,16 @@
 const express = require('express');
-const { test } = require("../controllers/userController");
+const { addOrder, getOrder, updateOrder, deleteOrder, getAllOrders, getMonthlyIncome } = require("../controllers/orderController");
+const verify = require('../middlewares/verifyToken');
+const router= express.Router();
 
 
+router.post("/",verify,addOrder);
+router.get("/find/:id",verify,getOrder);
+router.put("/:id",verify,updateOrder);
+router.delete("/:id",verify,deleteOrder);
+router.get("/",verify,getAllOrders);
+router.get("/income",verify,getMonthlyIncome);
 
-const router = express.Router();
 
 
 module.exports=router;
