@@ -69,7 +69,7 @@ font-size:50px;
 const Desc = styled.p`
 font-size:20px;
 margin:30px 0;
-letter-spacing:4px
+letter-spacing:4px;
 `
 
 const Button = styled.button`

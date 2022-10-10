@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
 flex:1;
@@ -14,7 +15,7 @@ height:100%;
 object-fit: cover;
 border-radius:5px;
 `
-const Info= styled.div`
+const Info = styled.div`
 position:absolute;
 height:100%;
 width:100%;
@@ -54,11 +55,13 @@ cursor:pointer;
 const CategoriesItem = ({ item }) => {
     return (
         <Container>
-            <Image src={item.img} />
-            <Info>
-                <Title>{item.title}</Title>
-                <Button>SHOP NOW</Button>
-            </Info>
+            <Link to={`/products/${item.cat}`} >
+                <Image src={item.img} />
+                <Info>
+                    <Title>{item.title}</Title>
+                    <Button>SHOP NOW</Button>
+                </Info>
+            </Link>
         </Container>
     )
 }
