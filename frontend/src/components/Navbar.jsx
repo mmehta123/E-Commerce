@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 import { Search, ShoppingCart } from '@mui/icons-material/';
 import Badge from '@mui/material/Badge';
+import {useSelector} from "react-redux";    //imported useSelctor for using store state
 
 
 const Container = styled.div`
@@ -28,6 +29,7 @@ border:1px solid black;
 border-radius:10px;
 display:flex;
 align-items: center;
+cursor:pointer;
 margin-left:25px;
 padding:2px;
 `
@@ -60,6 +62,8 @@ margin-left:14px;`
 
 
 const Navbar = () => {
+    const quantity = useSelector((state) => state.cart.quantity);
+
     return (
         <Container>
             <Nav>
@@ -80,7 +84,8 @@ const Navbar = () => {
                     <MenuItem>Register</MenuItem>
                     <MenuItem>Login</MenuItem>
                     <MenuItem>
-                        <Badge badgeContent={4} color="primary">
+                    {/* it will get live value from store which is updating on every addto cart action */}
+                        <Badge badgeContent={quantity} color="primary">
                             <ShoppingCart color="action" />
                         </Badge>
                     </MenuItem>

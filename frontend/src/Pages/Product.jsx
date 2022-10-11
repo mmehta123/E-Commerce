@@ -6,7 +6,9 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
 import { useLocation } from "react-router-dom";
+import {useDispatch} from "react-redux";    //useDispatch for triggering addProduct action
 import axios from 'axios';
+import { addProduct } from "../redux/cartRedux"     //added addProduct action from cartSlice from cartRedux.js
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -116,15 +118,21 @@ const Button = styled.button`
 const Product = () => {
     const location = useLocation();
     const id = location.pathname.split("/")[2];
-    const [item, setItem] = useState({});
+    const [product, setProduct] = useState({});
     const [color, setColor] = useState("");
     const [quantity, setQuantity] = useState(1);
     const [size, setSize] = useState("");
+    const dispatch=useDispatch();
+
+    const handleAddToCart=()=>{
+        dispatch(addProduct({product,quantity}));           //triggered to add quantity product and quantity are in payload form
+    }
+
 
     useEffect(() => {
         const getProduct = async () => {
             const res = await axios.get("http://localhost:5000/api/getproduct/" + id);
-            setItem(res.data);
+            setProduct(res.data);
         }
         getProduct();
     }, [location]);
@@ -146,20 +154,20 @@ const Product = () => {
             <Navbar />
             <Wrapper>
                 <ImageContainer>
-                    <Image src={item.img} />
+                    <Image src={product.img} />
                 </ImageContainer>
                 <InfoContainer>
                     <Title>
-                        {item.title}
+                        {product.title}
                     </Title>
                     <Desc>
-                        {item.title}
+                        {product.title}
                     </Desc>
-                    <Price>{item.price}</Price>
+                    <Price>{product.price}</Price>
                     <FilterContainer>
                         <Filter>
                             <FilterTitle>Color</FilterTitle>
-                            {item.color?.map((c, index) =>
+                            {product.color?.map((c, index) =>
                                 <FilterColor color={c} key={index} onClick={() => setSize(c)} />
                             )
                             }
@@ -167,8 +175,8 @@ const Product = () => {
                         <Filter>
                             <FilterTitle>Size</FilterTitle>
                             <Select onChange={(e) => setSize(e.target.value)}>
-                                {item.size &&
-                                    item.size.map((s, index) =>
+                                {product.size &&
+                                    product.size.map((s, index) =>
                                         <Option key={index}>{s.toUpperCase()}</Option>
                                     )}
                             </Select>
@@ -180,7 +188,7 @@ const Product = () => {
                             <Amount >{quantity}</Amount>
                             <Add onClick={() => handleQuantity("add")} />
                         </AmountContainer>
-                        <Button>ADD TO CART</Button>
+                        <Button onClick={handleAddToCart}>ADD TO CART</Button>
                     </AddContainer>
                 </InfoContainer>
             </Wrapper>
