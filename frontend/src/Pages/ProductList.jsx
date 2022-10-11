@@ -79,7 +79,6 @@ const ProductList = () => {
                         <Option >Newest</Option>
                         <Option>Low To High</Option>
                         <Option>High To Low</Option>
-                        <Option>maximum Discount</Option>
                     </Select>
                 </Filter>
             </FilterContainer>

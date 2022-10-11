@@ -7,23 +7,23 @@ import Cart from "./Pages/Cart.jsx";
 import './App.css';
 import { BrowserRouter as Router, Routes, Route ,Navigate} from "react-router-dom";
 
-// // ScrollToTop
-// import { useEffect } from "react";
-// import { useLocation } from "react-router";
+// ScrollToTop
+import { useEffect } from "react";
+import { useLocation } from "react-router";
 
-// const ScrollToTop = (props) => {
-//   const location = useLocation();
-//   useEffect(() => {
-//     window.scrollTo(0, 0);
-//   }, [location]);
-//   return <>{props.children}</>
-// };
+const ScrollToTop = (props) => {
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+  return <>{props.children}</>
+};
 
 function App() {
   const user=false;
   return (
     <Router>
-      
+      <ScrollToTop>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={user ? <Cart /> : <Navigate to='/login' />} />
@@ -32,7 +32,7 @@ function App() {
         <Route path="/products/:category" element={<ProductList />} />
         <Route path="/product/:id" element={<Product />} />
       </Routes>
-      
+      </ScrollToTop>
     </Router>
   );
 }

@@ -1,17 +1,20 @@
 import { Add, Remove } from '@mui/icons-material';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import Announcment from '../components/Announcment';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
-const Container = styled.div``
+import { useLocation } from "react-router-dom";
+import axios from 'axios';
+
+const Container = styled.div``;
 const Wrapper = styled.div`
 margin:10px 0;
 border:0.5px solid gray;
 border-radius:5px;
 display:flex;
-`
+`;
 
 const ImageContainer = styled.div`
 flex:1;
@@ -63,7 +66,7 @@ height: 20px;
 width: 20px;
 margin:5px;
 border-radius: 50%;
-background-color: ${props=>props.color};
+background-color: ${props => props.color};
 cursor:pointer;
 &:hover {
     outline: 1px solid gray;
@@ -105,59 +108,82 @@ const Button = styled.button`
   cursor: pointer;
   font-weight: 500;
   &:hover{
-      background-color: #f8f4f4;
+  background-color: #f8f4f4;
   }
 `;
 
 
 const Product = () => {
+    const location = useLocation();
+    const id = location.pathname.split("/")[2];
+    const [item, setItem] = useState({});
+    const [color, setColor] = useState("");
+    const [quantity, setQuantity] = useState(1);
+    const [size, setSize] = useState("");
+
+    useEffect(() => {
+        const getProduct = async () => {
+            const res = await axios.get("http://localhost:5000/api/getproduct/" + id);
+            setItem(res.data);
+        }
+        getProduct();
+    }, [location]);
+
+    const handleQuantity = (val) => {
+        if (val === "add") {
+            if (quantity < 10) {
+                setQuantity((prev) => prev + 1);
+            }
+        }
+        else {
+            quantity > 1 && setQuantity((prev) => prev - 1);
+        }
+    }
+
     return (
         <Container>
             <Announcment />
             <Navbar />
             <Wrapper>
                 <ImageContainer>
-                    <Image src="https://i.ibb.co/S6qMxwr/jean.jpg" />
+                    <Image src={item.img} />
                 </ImageContainer>
                 <InfoContainer>
                     <Title>
-                        Denim Full
+                        {item.title}
                     </Title>
                     <Desc>
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aperiam totam ab laborum velit ea facilis, temporibus labore incidunt repudiandae quo excepturi, quam deleniti omnis voluptates non. Ex nemo voluptas atque!
+                        {item.title}
                     </Desc>
-                    <Price>$ 20</Price>
+                    <Price>{item.price}</Price>
                     <FilterContainer>
                         <Filter>
                             <FilterTitle>Color</FilterTitle>
-                            <FilterColor color="black" />
-                            <FilterColor color="blue" />
-                            <FilterColor color="gray" />
-                            <FilterColor color="darkblue" />
+                            {item.color?.map((c, index) =>
+                                <FilterColor color={c} key={index} onClick={() => setSize(c)} />
+                            )
+                            }
                         </Filter>
                         <Filter>
                             <FilterTitle>Size</FilterTitle>
-                            <Select>
-                                <Option>XS</Option>
-                                <Option>S</Option>
-                                <Option>M</Option>
-                                <Option>L</Option>
-                                <Option>XL</Option>
-                                <Option>XXL</Option>
+                            <Select onChange={(e) => setSize(e.target.value)}>
+                                {item.size &&
+                                    item.size.map((s, index) =>
+                                        <Option key={index}>{s.toUpperCase()}</Option>
+                                    )}
                             </Select>
                         </Filter>
                     </FilterContainer>
                     <AddContainer>
                         <AmountContainer>
-                            <Remove />
-                            <Amount>1</Amount>
-                            <Add />
+                            <Remove onClick={() => handleQuantity("sub")} />
+                            <Amount >{quantity}</Amount>
+                            <Add onClick={() => handleQuantity("add")} />
                         </AmountContainer>
                         <Button>ADD TO CART</Button>
                     </AddContainer>
                 </InfoContainer>
             </Wrapper>
-
             <Newsletter />
             <Footer />
         </Container>
