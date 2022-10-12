@@ -21,8 +21,7 @@ const ScrollToTop = (props) => {
 };
 
 function App() {
-  // const currentUser=useSelector(state=>state.user);
-  const currentUser=false;
+  const currentUser=useSelector(state=>state.user);
   return (
     <Router>
       <ScrollToTop>
