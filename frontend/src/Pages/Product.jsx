@@ -125,7 +125,7 @@ const Product = () => {
     const dispatch=useDispatch();
 
     const handleAddToCart=()=>{
-        dispatch(addProduct({product,quantity}));           //triggered to add quantity product and quantity are in payload form
+        dispatch(addProduct({...product,quantity,color,size}));           //triggered to add quantity product and quantity are in payload form
     }
 
 
@@ -168,7 +168,7 @@ const Product = () => {
                         <Filter>
                             <FilterTitle>Color</FilterTitle>
                             {product.color?.map((c, index) =>
-                                <FilterColor color={c} key={index} onClick={() => setSize(c)} />
+                                <FilterColor color={c} key={index} onClick={() => setColor(c)} />
                             )
                             }
                         </Filter>

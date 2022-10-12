@@ -5,6 +5,8 @@ import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
 import Footer from '../components/Footer';
 import { Add, Remove } from '@mui/icons-material';
+import { useDispatch, useSelector } from 'react-redux';
+import { addProduct } from '../redux/cartRedux';
 
 const Container = styled.div`
 `;
@@ -134,6 +136,18 @@ font-weight:${props => props.type === "total" ? 500 : 400};
 
 
 const Cart = () => {
+    const cart = useSelector((state) => state.cart);
+    
+    // My Logic for plus and minus buttons not properly done
+    // const dispatch=useDispatch();
+    // const handleQuantity=(str,product)=>{
+    //     if(str==="inc"){
+    //         dispatch(addProduct({...product,quantity:1}))
+    //     }else{
+    //         dispatch(addProduct({...product,quantity:-1}))
+            
+    //     }
+    // }
     return (
         <Container>
             <Announcment />
@@ -150,42 +164,30 @@ const Cart = () => {
                 </TopBar>
                 <BottomBar>
                     <InfoWrapper>
-                        <Info>
-                            <Image src="https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" />
-                            <Desc>
-                                <ProductTitle><b>Model: </b>asics neoPrime3</ProductTitle>
-                                <ProductId><b>ID: </b>#12231</ProductId>
-                                <ProductColor color="gray" />
-                                <ProductSize><b>Size: </b>30 EU</ProductSize>
-                            </Desc>
-                            <ProductDetails>
-                                <Quantitiy>
-                                    <Remove />
-                                    <Number>2</Number>
-                                    <Add />
-                                </Quantitiy>
-                                <Price>5499</Price>
-                            </ProductDetails>
-                        </Info>
-                        <Info>
-                            <Image src="https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" />
-                            <Desc>
-                                <ProductTitle><b>Model: </b>asics neoPrime3</ProductTitle>
-                                <ProductId><b>ID: </b>#12231</ProductId>
-                                <ProductColor color="gray" />
-                                <ProductSize><b>Size: </b>30 EU</ProductSize>
-                            </Desc>
-                            <ProductDetails>
-                                <Quantitiy>
-                                    <Remove />
-                                    <Number>2</Number>
-                                    <Add />
-                                </Quantitiy>
-                                <Price>5499</Price>
-                            </ProductDetails>
-                        </Info>
+                        {
+                            cart?.products.map(product => (
+                                <Info>
+                                    <Image src={product.img} />
+                                    <Desc>
+                                        <ProductTitle><b>Model: </b>{product.title}</ProductTitle>
+                                        <ProductId><b>ID: </b>{product._id}</ProductId>
+                                        <ProductColor color={product.color} />
+                                        <ProductSize><b>Size: </b>{product.size}</ProductSize>
+                                    </Desc>
+                                    <ProductDetails>
+                                        <Quantitiy>
+                                            {/* <Remove onClick={()=>handleQuantity("dec",product)}/> */}
+                                            <Remove />
+                                            <Number>{product.quantity}</Number>
+                                            {/* <Add onClick={() => handleQuantity("inc", product)}/> */}
+                                            <Add />
+                                        </Quantitiy>
+                                        <Price>{product.quantity * product.price}</Price>
+                                    </ProductDetails>
+                                </Info>
+                            ))
+                        }
                     </InfoWrapper>
-                    <Hr/>
                     <Summary>
                         <SummaryTitle>Order Summary</SummaryTitle>
                         <SummaryPrice>
@@ -194,20 +196,22 @@ const Cart = () => {
                         </SummaryPrice>
                         <SummaryPrice>
                             <Tag>Subtotal</Tag>
-                            <PriceTag>10,900</PriceTag>
+                            <PriceTag>{cart.totalPrice}</PriceTag>
                         </SummaryPrice>
                         <SummaryPrice>
                             <Tag>Shipping Charge</Tag>
                             <PriceTag>0</PriceTag>
                         </SummaryPrice>
                         <SummaryPrice>
-                            <Tag>Discount</Tag>
-                            <PriceTag>1,090</PriceTag>
+                            <Tag>Discount(10%)</Tag>
+                            <PriceTag>{
+                                (cart.totalPrice / 10) > 1000 ? 1000 : cart.totalPrice / 10
+                            }</PriceTag>
                         </SummaryPrice>
-                        <Hr/>
+                        <Hr />
                         <SummaryPrice>
                             <Tag type="total">Total</Tag>
-                            <PriceTag type="total">9810</PriceTag>
+                            <PriceTag type="total">{cart.totalPrice - ((cart.totalPrice / 10) > 1000 ? 1000 : cart.totalPrice / 10)}</PriceTag>
                         </SummaryPrice>
                         <Button color='teal'>Checkout Now</Button>
                     </Summary>

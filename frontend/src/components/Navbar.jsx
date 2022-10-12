@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Search, ShoppingCart } from '@mui/icons-material/';
 import Badge from '@mui/material/Badge';
 import {useSelector} from "react-redux";    //imported useSelctor for using store state
+import { Link } from 'react-router-dom';
 
 
 const Container = styled.div`
@@ -84,10 +85,12 @@ const Navbar = () => {
                     <MenuItem>Register</MenuItem>
                     <MenuItem>Login</MenuItem>
                     <MenuItem>
+                    <Link to="/cart">
                     {/* it will get live value from store which is updating on every addto cart action */}
                         <Badge badgeContent={quantity} color="primary">
                             <ShoppingCart color="action" />
                         </Badge>
+                    </Link>
                     </MenuItem>
                 </Right>
             </Nav>
