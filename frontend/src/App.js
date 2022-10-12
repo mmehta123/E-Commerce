@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Routes, Route ,Navigate} from "react-router-do
 // ScrollToTop
 import { useEffect } from "react";
 import { useLocation } from "react-router";
+import { useSelector } from "react-redux"
 
 const ScrollToTop = (props) => {
   const location = useLocation();
@@ -20,15 +21,16 @@ const ScrollToTop = (props) => {
 };
 
 function App() {
-  const user=true;
+  // const currentUser=useSelector(state=>state.user);
+  const currentUser=false;
   return (
     <Router>
       <ScrollToTop>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/cart" element={user ? <Cart /> : <Navigate to='/login' />} />
-        <Route path="/login" element={user ?<Navigate to='/'/> :<Login />} />
-        <Route path="/register" element={user ?<Navigate to='/'/> :<Register />} />
+        <Route path="/cart" element={currentUser ? <Cart /> : <Navigate to='/login' />} />
+        <Route path="/login" element={currentUser ?<Navigate to='/'/> :<Login />} />
+        <Route path="/register" element={currentUser ?<Navigate to='/'/> :<Register />} />
         <Route path="/products/:category" element={<ProductList />} />
         <Route path="/product/:id" element={<Product />} />
       </Routes>
